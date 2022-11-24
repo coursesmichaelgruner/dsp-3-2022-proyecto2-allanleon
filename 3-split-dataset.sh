@@ -17,11 +17,11 @@ for i in $CLASSES; do
   cd $i
   echo "$i total: $(ls | wc -l) files"
   shuf -zn235 -e *.wav | xargs -0 mv -t ../validation/$i/
+  shuf -zn1800 -e *.wav | xargs -0 mv -t ../training/$i/
   cd -
-  mv $i/* training/$i/
   echo "$i training: $(ls training/$i/ | wc -l) files"
   echo "$i validation: $(ls validation/$i/ | wc -l) files"
-  rmdir $i
+  rm -rf $i
 done
 
 echo "Building validation and training list files"
@@ -36,4 +36,4 @@ for i in $CLASSES; do
   ls -1 training/$i/* >> training_list.txt
 done
 
-cd -
+cd ..
