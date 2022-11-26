@@ -81,4 +81,13 @@ model.add(keras.layers.Dense(12))
 # 23. Softmax
 model.add(keras.layers.Softmax())
 
+model.compile(optimizer=keras.optimizers.Adam(learning_rate=3e-4),
+              loss=keras.losses.CategoricalCrossentropy(),
+              metrics=[keras.metrics.CategoricalAccuracy(),
+                       keras.metrics.FalseNegatives()])
+
+model.fit(x=None,y=None,batch_size=128,epochs=25,shuffle=True)
+
+model.save('model.h5')
+
 print('hola')
