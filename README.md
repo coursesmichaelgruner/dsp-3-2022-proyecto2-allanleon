@@ -4,10 +4,14 @@
 Ejecutar
 
 ```bash
+# Download datasets and compute spectrograms
 ./1-init.sh
 ./2-classify.sh
 ./3-split-dataset.sh
 mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.log
+
+# Alternatively, download the pre-computed spectrograms
+./4-download-spectrograms.sh
 ```
 
 For single view:
