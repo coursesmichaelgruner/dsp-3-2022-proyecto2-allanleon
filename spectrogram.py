@@ -6,7 +6,7 @@ import librosa.display
 def compute_spectrogram(audiodata, fs=16000, coldur=0.025, coldist=0.01, ref=np.max, db=True):
     winlen = int(fs * coldur)
     hoplen = int(fs * coldist) + 1
-    nfft = 8192 # 8 kHz len
+    nfft = fs//2 # 8 kHz len
     win = 'hann' # Hanning window
     centred = True
     pow = 2 # Power mode

@@ -23,7 +23,7 @@ def plot_spectrogram_save(audio_file, output_file='spectrogram.svg'):
     fig, ax = plt.subplots()
     img = librosa.display.specshow(S_dB, x_axis='time',
                          y_axis='mel', sr=fs,
-                         fmax=8192, ax=ax)
+                         fmax=fs//2, ax=ax)
     fig.colorbar(img, ax=ax, format='%+2.0f dB')
     ax.set(title='Mel-frequency spectrogram')
     plt.tight_layout();
