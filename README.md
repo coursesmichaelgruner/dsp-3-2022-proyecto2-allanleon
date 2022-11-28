@@ -12,6 +12,10 @@ mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.l
 
 # Alternatively, download the pre-computed spectrograms
 ./4-download-spectrograms.sh
+
+# Proceed with processing
+./5-python-visualise.py
+./6-python-clip.py
 ```
 
 For single view:
