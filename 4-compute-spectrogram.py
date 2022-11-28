@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
+import librosa
 from mpi4py import MPI
 from spectrogram import compute_spectrogram, plot_spectrogram
 
@@ -14,7 +15,8 @@ world_size = comm.Get_size()
 
 # For a single job
 def single_job(input_file):
-    y, fs = librosa.load(input_file)
+    y, fs = librosa.load(input_file, sr=16000)
+    print(fs)
     S_dB = compute_spectrogram(y, fs)
     print(S_dB.shape)
     plot_spectrogram(S_dB, fs)
@@ -31,7 +33,7 @@ def process_files(files):
         
         # Process file
         file = files[i]
-        y, fs = librosa.load(file)
+        y, fs = librosa.load(file, sr=16000)
         S_dB = compute_spectrogram(y, fs)
 
         # Save file
@@ -70,6 +72,7 @@ if __name__ == "__main__":
 
     if args.single and rank == 0:
         single_job(args.input)
+        exit()
 
     # Multi job
     if rank == 0:

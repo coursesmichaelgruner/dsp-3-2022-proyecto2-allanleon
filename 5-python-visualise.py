@@ -8,7 +8,7 @@ import os
 from spectrogram import compute_spectrogram
 
 def plot_signal_save(audio_file, output_file='signal.svg'):
-    y, sr = librosa.load(audio_file)
+    y, sr = librosa.load(audio_file, sr=16000)
     plt.figure();
     plt.plot(y);
     plt.title('Signal');
@@ -18,7 +18,7 @@ def plot_signal_save(audio_file, output_file='signal.svg'):
     plt.savefig(output_file);
 
 def plot_spectrogram_save(audio_file, output_file='spectrogram.svg'):
-    y, fs = librosa.load(audio_file);
+    y, fs = librosa.load(audio_file, sr=16000);
     S_dB = compute_spectrogram(y, fs);
     fig, ax = plt.subplots()
     img = librosa.display.specshow(S_dB, x_axis='time',
@@ -31,7 +31,7 @@ def plot_spectrogram_save(audio_file, output_file='spectrogram.svg'):
     return S_dB
 
 def plot_histogram_save(S_dB, output_file='distro.svg'):
-    y, fs = librosa.load(audio_file);
+    y, fs = librosa.load(audio_file, sr=16000);
     plt.figure();
     _ = plt.hist(S_dB, bins=100, density=True);
     plt.title("Histogram of the spectrum");
