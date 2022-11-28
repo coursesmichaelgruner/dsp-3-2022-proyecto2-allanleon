@@ -6,9 +6,15 @@ import librosa
 import soundfile as sf
 import os
 
-def open_file(file):
-    f = open(file, 'r')
-    lines = f.readlines()
+def open_list():
+    lines = [
+        'doing_the_dishes.wav',
+        'dude_miaowing.wav',
+        'exercise_bike.wav',
+        'pink_noise.wav',
+        'running_tap.wav',
+        'white_noise.wav'
+    ]
     return lines
 
 def write_file(files, lists):
@@ -35,10 +41,9 @@ def clip_file(audio_file):
     return filename_list
 
 if __name__ == "__main__":
-    filenames = 'data/background_noise/noise.txt'
     listname = 'data/noise_list.txt'
     path = 'data/background_noise'
-    files = open_file(filenames)
+    files = open_list()
     filelist = []
 
     for i in files:
