@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
-import tensorflow as tf
-
 from tensorflow import keras
-import matplotlib.pyplot as plt
+import numpy as np
 from utils import get_array
 import sys
-
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 
 rows = 40
 cols = 100
@@ -33,5 +33,11 @@ print('preparing data done')
 print(validation_x[0:1].shape)
 model = keras.models.load_model('model.h5')
 
-results = model.predict(validation_x[-1:])
-print(results)
+results = model.predict(validation_x)
+results = np.argmax(results,axis=1)
+
+confusion = confusion_matrix(labels_valid, results , normalize='pred')
+
+disp=ConfusionMatrixDisplay(confusion,display_labels=labels)
+disp.plot()
+plt.show()
