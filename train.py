@@ -43,6 +43,8 @@ def get_label(file: str):
 def normalize(data):
     mean = np.mean(data)
     var = np.var(data)
+    if (abs(var) < sys.float_info.epsilon):
+        return np.zeros(data.shape)
     data = (data - mean)/np.sqrt(var)
     return data
 
@@ -73,10 +75,10 @@ def get_array(file_list: list[str], rows=40, cols=100):
 
 
 print('preparing data')
-training_x, labels_train = get_array(training_list, rows, cols)
+training_x, training_labels = get_array(training_list, rows, cols)
 # validation_x,labels_valid=get_array(validation_list,rows,cols)
 print('preparing data done')
-
+print(training_x.shape)
 
 data_format = "channels_last"
 
@@ -143,23 +145,25 @@ model.add(keras.layers.Activation(keras.activations.relu))
 
 # 20. MaxPooling2D
 model.add(keras.layers.MaxPooling2D(
-    pool_size=(1, 3), strides=(1, 1), padding='same'))
+    pool_size=(1, 13), strides=(1, 1), padding='same'))
 
 # 21. Dropout
 model.add(keras.layers.Dropout(0.2))
 
+model.add(keras.layers.Flatten())
+
 # 22. Dense
-model.add(keras.layers.Dense(12))
+model.add(keras.layers.Dense(12, activation='softmax'))
 
 # 23. Softmax
-model.add(keras.layers.Softmax())
+#model.add(keras.layers.Softmax())
 
 model.compile(optimizer=keras.optimizers.Adam(learning_rate=3e-4),
               loss=keras.losses.CategoricalCrossentropy(),
               metrics=[keras.metrics.CategoricalAccuracy(),
                        keras.metrics.FalseNegatives()])
 
-model.fit(x=None, y=None, batch_size=128, epochs=25, shuffle=True)
+model.fit(x=training_x, y=keras.utils.to_categorical(training_labels), batch_size=128, epochs=25, shuffle=True)
 
 model.save('model.h5')
 
