@@ -34,4 +34,4 @@ indx = np.argmax(results,axis=1)[0]
 
 print('==============\n')
 
-print(labels[indx])
+print(f'{labels[indx]} {results[0][indx]*100:.2f}')
