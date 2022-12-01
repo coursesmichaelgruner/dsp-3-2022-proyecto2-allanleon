@@ -10,7 +10,7 @@ rows = 40
 cols = 100
 
 if len(sys.argv) != 2:
-    print('usage 7a-normailze.py ./path_to_root_of_data')
+    print('usage ./train.py ./path_to_root_of_data')
     sys.exit(1)
 
 path = sys.argv[1]
