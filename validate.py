@@ -7,6 +7,7 @@ import sys
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+from keras.utils.vis_utils import plot_model
 
 rows = 40
 cols = 100
@@ -33,11 +34,21 @@ print('preparing data done')
 print(validation_x[0:1].shape)
 model = keras.models.load_model('model.h5')
 
+plot_model(model, to_file='img/model_plot.pdf', show_shapes=True, show_layer_names=True)
+
 results = model.predict(validation_x)
 results = np.argmax(results,axis=1)
 
+labels[-1]='noise'
 confusion = confusion_matrix(labels_valid, results , normalize='pred')
 
 disp=ConfusionMatrixDisplay(confusion,display_labels=labels)
-disp.plot()
+
+fig, ax = plt.subplots(figsize=(10,10))
+
+disp.plot(ax=ax,values_format='.2f')
+
+plt.xlabel("Predicted")
+plt.ylabel("Real class")
+plt.savefig('img/confusion.pdf')
 plt.show()

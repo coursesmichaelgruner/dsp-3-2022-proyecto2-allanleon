@@ -61,6 +61,6 @@ sudo apt install mpich libopenmpi-dev -y
 Python modules for spectrogram:
 
 ```bash
-pip3 install librosa numpy matplotlib mpi4py
+pip3 install librosa numpy matplotlib mpi4py pandas
 ```
 
