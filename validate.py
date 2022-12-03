@@ -18,7 +18,7 @@ def fn(n=5):
     cols = 100
 
     if len(sys.argv) != 2:
-        print('usage ./validate.py ./path_to_root_of_data')
+        print(f'usage {sys.argv[0]} ./path_to_root_of_data')
         sys.exit(1)
 
     path = sys.argv[1]

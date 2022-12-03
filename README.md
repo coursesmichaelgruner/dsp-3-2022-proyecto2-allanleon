@@ -43,6 +43,9 @@ mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.l
 # Visualize spectograms
 ./5-python-visualise.py
 
+# Visualize label distribution
+./7-sample-dist.py data/
+
 # Train the model
 ./train.py data
 
