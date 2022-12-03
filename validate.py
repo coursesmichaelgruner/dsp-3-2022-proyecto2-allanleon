@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-
+from oct2py import octave
 from tensorflow import keras
 import numpy as np
 from utils import get_array
 import sys
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import ConfusionMatrixDisplay
-import matplotlib.pyplot as plt
 from keras.utils.vis_utils import plot_model
 
 rows = 40
@@ -39,16 +36,9 @@ plot_model(model, to_file='img/model_plot.pdf', show_shapes=True, show_layer_nam
 results = model.predict(validation_x)
 results = np.argmax(results,axis=1)
 
+Yt = labels_valid
+Yp = results
+octave.run('confusion.m')
 labels[-1]='noise'
-confusion = confusion_matrix(labels_valid, results , normalize='pred')
-
-disp=ConfusionMatrixDisplay(confusion,display_labels=labels)
-
-fig, ax = plt.subplots(figsize=(10,10))
-
-disp.plot(ax=ax,values_format='.2f')
-
-plt.xlabel("Predicted")
-plt.ylabel("Real class")
-plt.savefig('img/confusion.pdf')
-plt.show()
+octave.confusion_matrix(Yt,Yp,labels)
+input('Press enter to close')

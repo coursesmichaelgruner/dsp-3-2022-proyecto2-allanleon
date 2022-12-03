@@ -55,12 +55,12 @@ Install
 MPI for task farming:
 
 ```bash
-sudo apt install mpich libopenmpi-dev -y
+sudo apt install mpich libopenmpi-dev graphviz -y
 ```
 
 Python modules for spectrogram:
 
 ```bash
-pip3 install librosa numpy matplotlib mpi4py pandas
+pip3 install librosa numpy matplotlib mpi4py pandas oct2py pydot
 ```
 
