@@ -32,6 +32,6 @@ for ax in range(2):
     axes[ax].plot(epochs[:,0],epochs[:,1],marker=matplotlib.markers.CARETDOWNBASE,linestyle='')
     axes[ax].legend(['Batch','Epoch'])
 
-fig.savefig('img/training_stats.svg')
 fig.tight_layout(pad=1)
+fig.savefig('img/training_stats.pdf')
 plt.show()
