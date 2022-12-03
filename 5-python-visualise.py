@@ -6,6 +6,7 @@ import librosa
 import librosa.display
 import os
 from spectrogram import compute_spectrogram
+import glob
 
 def plot_signal_save(audio_file, output_file='signal.svg'):
     y, sr = librosa.load(audio_file, sr=16000)
@@ -42,29 +43,34 @@ def plot_histogram_save(S_dB, output_file='distro.svg'):
 
 
 if __name__ == "__main__":
-    files = [
-        {'cmd':'down', 'file':'data/training/down/0a7c2a8d_nohash_0'},
-        {'cmd':'go', 'file':'data/training/go/0a9f9af7_nohash_0'},
-        {'cmd':'left', 'file':'data/training/left/0a7c2a8d_nohash_0'},
-        {'cmd':'no', 'file':'data/training/no/0a9f9af7_nohash_0'},
-        {'cmd':'off', 'file':'data/training/off/0ab3b47d_nohash_1'},
-        {'cmd':'on', 'file':'data/training/on/0a7c2a8d_nohash_0'},
-        {'cmd':'right', 'file':'data/training/right/0a7c2a8d_nohash_0'},
-        {'cmd':'stop', 'file':'data/training/stop/0ac15fe9_nohash_0'},
-        {'cmd':'unknown', 'file':'data/training/unknown/0a7c2a8d_nohash_1'},
-        {'cmd':'up', 'file':'data/training/up/0a7c2a8d_nohash_0'},
-        {'cmd':'yes', 'file':'data/training/yes/0a7c2a8d_nohash_0'},
+    cmds = [
+        'down',
+        'go',
+        'left',
+        'no',
+        'off',
+        'on',
+        'right',
+        'stop',
+        'unknown',
+        'up',
+        'yes',
+        'background_noise'
     ]
     S_dB = np.array([])
 
     # plot signals
-    for i in files:
-        audio_file = i["file"] + '.wav'
-        
+    for cmd in cmds:
+        audio_file = glob.glob(f'data/training/{cmd}/*.wav')
+        if audio_file is None or len(audio_file)==0:
+            print(f'no file for "{cmd}" found')
+            continue
+        audio_file=audio_file[0]
+
         base_file = os.path.splitext(os.path.basename(audio_file))[0] + '.svg'
-        signal_file = os.path.join('img/audio', "signal_" + i["cmd"] + "_" + base_file)
-        spectro_file = os.path.join('img/audio', "spectro_" + i["cmd"] + "_" + base_file)
-        prob_file = os.path.join('img/audio', "prob_" + i["cmd"] + "_" + base_file)
+        signal_file = os.path.join('img/audio', "signal_" + cmd + "_" + base_file)
+        spectro_file = os.path.join('img/audio', "spectro_" + cmd + "_" + base_file)
+        prob_file = os.path.join('img/audio', "prob_" + cmd + "_" + base_file)
 
         # Plot signal
         plot_signal_save(audio_file, signal_file)
