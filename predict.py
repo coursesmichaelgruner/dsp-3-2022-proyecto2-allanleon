@@ -2,36 +2,44 @@
 
 from tensorflow import keras
 import numpy as np
-from utils import normalize
+from utils import get_spectograms
 import sys
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 from spectrogram import compute_spectrogram
 import librosa
+import os
+import glob
 
 
 if len(sys.argv) != 2:
-    print('usage ./predict.py audio_file')
+    print('usage ./predict.py audio_file|directory')
     sys.exit(1)
 
 path = sys.argv[1]
 
+if os.path.isdir(path):
+    files = glob.glob(f'{path}/*.wav')
+elif os.path.isfile(path):
+    files = [path]
+else:
+    print('path not found')
+    sys.exit(1)
+
 labels = ['down', 'go', 'left', 'no', 'off',
           'on', 'right', 'stop', 'unknown', 'up', 'yes', 'background_noise']
 
-y, fs = librosa.load(path, sr=16000)
 
-spectrogram = compute_spectrogram(y,fs)
-spectrogram=normalize(spectrogram)
-spectrogram = spectrogram.reshape((1,spectrogram.shape[0],spectrogram.shape[1]))
+spectrograms = get_spectograms(files)
 
 model = keras.models.load_model('model.h5')
 
-results = model.predict(spectrogram)
+results = model.predict(spectrograms)
 
-indx = np.argmax(results,axis=1)[0]
+indx = np.argmax(results, axis=1)
 
 print('==============\n')
 
-print(f'{labels[indx]} {results[0][indx]*100:.2f}')
+for i in range(len(files)):
+    print(f'{os.path.basename(files[i])}: \t{labels[indx[i]]} \t{results[i][indx[i]]*100:.3f}%')
