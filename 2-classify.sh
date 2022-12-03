@@ -15,10 +15,6 @@ for i in $UNKNOWN; do
   rmdir $i
 done
 
-# Move the background noise
-echo "Moving background noise to a folder without underscores"
-mv _background_noise_ background_noise
-
 # Counting classes
 CLASSES="background_noise down go left no off on right stop unknown up yes"
 for i in $CLASSES; do
