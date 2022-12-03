@@ -4,18 +4,41 @@
 Ejecutar
 
 ```bash
+git clone git@github.com:coursesmichaelgruner/dsp-3-2022-proyecto2-allanleon.git
+cd dsp-3-2022-proyecto2-allanleon
+
 # Download datasets and compute spectrograms
 ./1-init.sh
+# If you already have the speech_commands_v0.01.tar.gz tar,
+# you can create a folder called data and extract it there
+mkdir data
+tar -xvzf speech_commands_v0.01.tar.gz -C ./data
+#
+
+#Generate noise clips
+./6-python-clip.py
+
+# Classify unknown commands
 ./2-classify.sh
+
+# Spilt into training and validation samples
 ./3-split-dataset.sh
+
+# Compute spectograms (takes around 5 mins)
 mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.log
 
-# Alternatively, download the pre-computed spectrograms
-./4-download-spectrograms.sh
-
-# Proceed with processing
+# Visualize spectograms
 ./5-python-visualise.py
-./6-python-clip.py
+
+# Train the model
+./train.py data
+
+#Validate model
+./validate.py data
+
+# Predict own input
+./predict.py <file to ppredit>
+e.g.: ./predict.py muestras/down.wav # should display a message with 'down'
 ```
 
 For single view:
@@ -38,7 +61,6 @@ sudo apt install mpich libopenmpi-dev -y
 Python modules for spectrogram:
 
 ```bash
-pip3 install librosa numpy matplotlib
-pip3 mpi4py
+pip3 install librosa numpy matplotlib mpi4py
 ```
 
