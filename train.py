@@ -106,14 +106,35 @@ model.add(keras.layers.Flatten())
 model.add(keras.layers.Dense(12, activation='softmax'))
 
 # 23. Softmax
-#model.add(keras.layers.Softmax())
+# model.add(keras.layers.Softmax())
 
 model.compile(optimizer=keras.optimizers.Adam(learning_rate=3e-4),
               loss=keras.losses.CategoricalCrossentropy(),
               metrics=[keras.metrics.CategoricalAccuracy(),
                        keras.metrics.FalseNegatives()])
 
-model.fit(x=training_x, y=keras.utils.to_categorical(training_labels), batch_size=128, epochs=25, shuffle=True)
+class LogBatchCallback(keras.callbacks.Callback):
+    def __init__(self) -> None:
+        super().__init__()
+        self.global_batch = 0
+        self.filename='training_batches.log'
+        with open(self.filename,'w'):
+            pass
+
+    def on_train_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+
+        with open(self.filename,'a') as f:
+            if self.global_batch==0:
+                f.write(f'batch,{keys[0]},{keys[1]}\n')
+            f.write(f'{self.global_batch},{logs[keys[0]]},{logs[keys[1]]}\n')
+
+        self.global_batch += 1
+
+log_batch_callback = LogBatchCallback()
+
+model.fit(x=training_x, y=keras.utils.to_categorical(training_labels),
+          batch_size=128, epochs=25, shuffle=True, callbacks=[log_batch_callback])
 
 model.save('model.h5')
 
