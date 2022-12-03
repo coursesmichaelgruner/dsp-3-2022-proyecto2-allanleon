@@ -46,7 +46,7 @@ mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.l
 # Train the model
 ./train.py data
 
-#Validate model
+#Validate model  (this also computes CPU and spectogram throughput)
 ./validate.py data
 
 # Predict own input
