@@ -39,8 +39,9 @@ results = model.predict(spectrograms)
 
 indx = np.argmax(results, axis=1)
 
-print('==============\n')
+print('\n======Prediction results========\n')
 
 for i in range(len(files)):
-    predict= f'{results[i][indx[i]]*100:.3f}'
-    print(f'{os.path.basename(files[i]):9}: {labels[indx[i]]:8}  {predict:>8}%')
+    predict = f'{results[i][indx[i]]*100:.3f}'
+    print(
+        f'{os.path.basename(files[i]):9}: {labels[indx[i]]:8}  {predict:>8}%')
