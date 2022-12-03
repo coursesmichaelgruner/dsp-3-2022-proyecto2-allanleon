@@ -6,7 +6,7 @@
 
 cd data
 
-CLASSES="down go left no off on right stop unknown up yes"
+CLASSES="down go left no off on right stop unknown up yes background_noise"
 mkdir validation
 mkdir training
 
