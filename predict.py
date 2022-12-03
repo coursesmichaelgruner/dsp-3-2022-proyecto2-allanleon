@@ -42,4 +42,5 @@ indx = np.argmax(results, axis=1)
 print('==============\n')
 
 for i in range(len(files)):
-    print(f'{os.path.basename(files[i])}: \t{labels[indx[i]]} \t{results[i][indx[i]]*100:.3f}%')
+    predict= f'{results[i][indx[i]]*100:.3f}'
+    print(f'{os.path.basename(files[i]):9}: {labels[indx[i]]:8}  {predict:>8}%')
