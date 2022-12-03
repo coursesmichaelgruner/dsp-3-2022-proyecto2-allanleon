@@ -1,7 +1,20 @@
 
-#Instrucciones
+# Instrucciones
 
-Ejecutar
+# Dependencies
+
+
+```bash
+sudo apt install mpich libopenmpi-dev graphviz -y
+```
+
+## Python modules for spectrogram:
+
+```bash
+pip3 install librosa numpy matplotlib mpi4py pandas oct2py pydot
+```
+
+# Ejecutar
 
 ```bash
 git clone git@github.com:coursesmichaelgruner/dsp-3-2022-proyecto2-allanleon.git
@@ -37,30 +50,14 @@ mpirun -np 5 --use-hwthread-cpus python3 4-compute-spectrogram.py data/ 2> err.l
 ./validate.py data
 
 # Predict own input
-./predict.py <file to ppredit>
+./predict.py <wav file to predit or folder with several files>
 e.g.: ./predict.py muestras/down.wav # should display a message with 'down'
 ```
 
-For single view:
+For single view of spectogram:
 
 ```bash
 python3 4-compute-spectrogram.py -s data/training/up/9785931e_nohash_0.wav
 ```
 
 The `-np` must be multiple of 5
-
-Install
-
-
-MPI for task farming:
-
-```bash
-sudo apt install mpich libopenmpi-dev graphviz -y
-```
-
-Python modules for spectrogram:
-
-```bash
-pip3 install librosa numpy matplotlib mpi4py pandas oct2py pydot
-```
-
